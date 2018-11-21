@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html {
+    height: 96%;
+  }
+  body, .block{
+    height: 99%;
+  }
+  .block {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.5s;
+    opacity: 0;
+  }
+  .wrapper{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .guest {
+    display: block;
+    background-color: #79a9da;
+    opacity: 1;
+    z-index: 1;
+  }
+  .login-form {
+    width: 50%;
+    margin: 0 auto;
+  }
+  .login-form__title {
+    font-size: 64px;
+    color: #fff;
+    text-align: center;
+  }
+  .guest input[type='text'],
+    .guest input[type='password'] {
+      padding: 10px 25px;
+      display: block;
+      width: 100%;
+      font-size: 32px;
+      border-radius: 50px;
+      outline: none;
+      margin: 25px 0;
+      width: 100%;
+    }
+  .guest input[type='submit'] {
+    padding: 10px 25px;
+    display: block;
+    font-size: 32px;
+    border-radius: 50px;
+    outline: none;
+    margin: 25px 0;
+    float: right;
+  }
+  .user {
+    border: 3px solid green;
+  }
+  .admin {
+    border: 3px solid blue;
+  }
+</style>
+<body>
+  <div class="block guest">
+    <div class="wrapper login-form">
+      <div class="login-form__title">Форма входа</div>
+      <input id="name" type="text" placeholder="User name">
+      <input id="password" type="password" placeholder="User password">
+      <input type="submit" onclick="login()" value="Войти">
+    </div>
+  </div>
+  <div class="block user">
+    <div class="wrapper">
+
+    </div>
+  </div>
+  <div class="block admin">
+    <div class="wrapper"></div>
+  </div>
+</body>
+<script type="text/javascript">
+  var guest = document.getElementsByClassName('guest')[0];
+  var user = document.getElementsByClassName('user')[0];
+  var admin = document.getElementsByClassName('admin')[0];
+
+  function login() {
+    var name = document.getElementById('name').value;
+    var pwd = document.getElementById('password').value;
+    if(name == 'user' && pwd == 'pwd') {
+      guest.style.opacity = 0;
+      guest.style.zIndex = 0;
+      user.style.opacity = 1;
+      user.style.zIndex = 1;
+    }
+  }
+</script>
+</html>
