@@ -5,6 +5,9 @@
   <title>Document</title>
 </head>
 <style>
+  input {
+    outline: none;
+  }
   * {
     margin: 0;
     padding: 0;
@@ -29,45 +32,71 @@
     position: relative;
     top: 50%;
     transform: translateY(-50%);
+    width: 50%;
+    margin: 0 auto;
   }
   .guest {
     display: block;
     background-color: #79a9da;
-    opacity: 1;
+    opacity: 0;
     z-index: 1;
   }
-  .login-form {
-    width: 50%;
-    margin: 0 auto;
-  }
+
   .login-form__title {
     font-size: 64px;
     color: #fff;
     text-align: center;
   }
   .guest input[type='text'],
-    .guest input[type='password'] {
-      padding: 10px 25px;
-      display: block;
-      width: 100%;
-      font-size: 32px;
-      border-radius: 50px;
-      outline: none;
-      margin: 25px 0;
-      width: 100%;
-    }
+  .guest input[type='password'] {
+    padding: 10px 25px;
+    display: block;
+    width: 100%;
+    font-size: 32px;
+    border-radius: 50px;
+    margin: 25px 0;
+    width: 100%;
+  }
   .guest input[type='submit'] {
     padding: 10px 25px;
     display: block;
     font-size: 32px;
     border-radius: 50px;
-    outline: none;
     margin: 25px 0;
     float: right;
   }
+  /* USER */
   .user {
-    border: 3px solid green;
+    opacity: 1;
+    z-index: 2;
+    background-color: #79a9da;
   }
+  .user input {
+    display: block;
+    font-size: 26px;
+    padding: 20px 15px;
+    margin: 20px 0;
+    border-radius: 25px;
+    box-sizing: border-box;
+  }
+  .user .step {
+    display: inline-block;
+    width: 100%;
+  }
+  .title {
+    font-weight: bold;
+    font-size: 48px;
+    text-align: center;
+  }
+  .first-step__input {
+    width: 100%;
+  }
+  .first-step__submit{
+    float: right;
+  }
+  /* start USER first step */
+
+  /* end USER first step */
   .admin {
     border: 3px solid blue;
   }
@@ -83,7 +112,19 @@
   </div>
   <div class="block user">
     <div class="wrapper">
-
+      <div class="user__system">
+        <div class="user__first-step step">
+          <div class="first-step__title title">Заполните форму:</div>
+          <input id="var-count" class="first-step__input" type="number" placeholder="Количество переменных">
+          <input id="cond-count" class="first-step__input" type="number" placeholder="Количество условий">
+          <input class="first-step__submit" oncilck="createSystem()" type="button" value="Продожлить">
+        </div>
+        <div class="user__second-step step">
+          <div class="second-step__title title">Заполните уровнения: </div>
+          <div id="system" class="second-step__system"></div>
+        </div>
+      <!--  sub -->
+      </div>
     </div>
   </div>
   <div class="block admin">
@@ -94,6 +135,9 @@
   var guest = document.getElementsByClassName('guest')[0];
   var user = document.getElementsByClassName('user')[0];
   var admin = document.getElementsByClassName('admin')[0];
+  var DOMVarCount = document.getElementById('var-count');
+  var DOMCondCount = document.getElementById('cond-count');
+  var DOMSystem = document.getElementById('system');
 
   function login() {
     var name = document.getElementById('name').value;
@@ -105,5 +149,50 @@
       user.style.zIndex = 1;
     }
   }
+
+  DOMVarCount.addEventListener('input', function(evt) {
+    this.style.border = 'none';
+    renderSystem();
+  });
+
+  DOMCondCount.addEventListener('input', function() {
+    this.style.border = 'none';
+    renderSystem();
+  });
+
+  function renderSystem() {
+    if(DOMVarCount.value == '' || DOMVarCount.value > 5 || DOMVarCount.value <= 0) {
+      DOMVarCount.style.border = '2px solid red';
+      return;
+    }
+    if(DOMCondCount.value == '' || DOMCondCount.value > 5 || DOMCondCount <= 0){
+      DOMCondCount.style.border = '2px solid red';
+      return;
+    }
+    if(DOMCondCount.value < DOMVarCount.value) {
+      DOMCondCount.style.border = '2px solid red';
+      DOMVarCount.style.border = '2px solid red';
+      return;
+    }
+    system.innerHTML = '';
+    var varCount = DOMVarCount.value;
+    var condCount = DOMCondCount.value;
+    var additionalVar = varCount - condCount;
+    var ZContainer = document.createElement('div');
+    ZContainer.appendChild(getXField(1));
+    system.appendChild(ZContainer);
+  }
+  function getXField(index) {
+    var input = document.createElement('input');
+    var xField = document.createElement('span');
+    var wrapper = document.createElement('div');
+    input.type = 'number';
+    xField.innerHTML = 'x<sub>' + index + '</sub>';
+    wrapper.appendChild(input);
+    wrapper.appendChild(xField);
+    return wrapper;
+  }
+
+
 </script>
 </html>
